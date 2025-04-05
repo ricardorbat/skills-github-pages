@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Cost Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1d4ed8;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .input-group button {
+            background-color: #1d4ed8;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .input-group button:hover {
+            background-color: #2563eb;
+        }
+        .output {
+            margin-top: 20px;
+        }
+        .output p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Travel Cost Calculator</h1>
+    <div class="input-group">
+        <label for="distance">Distance (miles):</label>
+        <input type="number" id="distance" placeholder="Enter miles between locations" />
+    </div>
+    <div class="input-group">
+        <label for="airfare">Airfare ($):</label>
+        <input type="number" id="airfare" placeholder="Enter airfare cost" />
+    </div>
+    <div class="input-group">
+        <label for="rentalCar">Rental Car Cost Per Day ($):</label>
+        <input type="number" id="rentalCar" placeholder="Enter daily rental car cost" />
+    </div>
+    <div class="input-group">
+        <label for="fuel">Fuel Cost Per Gallon ($):</label>
+        <input type="number" id="fuel" placeholder="Enter fuel cost per gallon" />
+    </div>
+    <div class="input-group">
+        <label for="perDiem">Per Diem Per Day ($):</label>
+        <input type="number" id="perDiem" placeholder="Enter per diem cost" />
+    </div>
+    <div class="input-group">
+        <label for="hotel">Hotel Cost Per Night ($):</label>
+        <input type="number" id="hotel" placeholder="Enter hotel cost per night" />
+    </div>
+    <div class="input-group">
+        <button onclick="calculateCosts()">Calculate Total Cost</button>
+    </div>
+
+    <div class="output" id="output">
+        <!-- Output results will be shown here -->
+    </div>
+</div>
+
+<script>
+    function calculateCosts() {
+        const distance = parseFloat(document.getElementById("distance").value);
+        const airfare = parseFloat(document.getElementById("airfare").value);
+        const rentalCar = parseFloat(document.getElementById("rentalCar").value);
+        const fuel = parseFloat(document.getElementById("fuel").value);
+        const perDiem = parseFloat(document.getElementById("perDiem").value);
+        const hotel = parseFloat(document.getElementById("hotel").value);
+
+        const IRS_MILEAGE_RATE = 0.655;  // IRS standard mileage rate (2025 rate)
+
+        // Assuming an average car fuel efficiency (miles per gallon)
+        const milesPerGallon = 25;
+        
+        const fuelCost = (distance / milesPerGallon) * fuel;  // Total fuel cost
+        const totalRentalCarCost = rentalCar;  // Assuming 1 day rental
+        const totalPerDiem = perDiem;  // Assuming 1 day per diem
+        const totalHotelCost = hotel;  // Assuming 1 night hotel
+
+        // Calculate mileage cost
+        const mileageCost = distance * IRS_MILEAGE_RATE;
+
+        // Calculate total cost
+        const totalCost = airfare + fuelCost + totalRentalCarCost + totalPerDiem + totalHotelCost + mileageCost;
+
+        // Output results
+        document.getElementById("output").innerHTML = `
+            <p><strong>Airfare:</strong> $${airfare.toFixed(2)}</p>
+            <p><strong>Rental Car Cost:</strong> $${totalRentalCarCost.toFixed(2)}</p>
+            <p><strong>Fuel Cost:</strong> $${fuelCost.toFixed(2)}</p>
+            <p><strong>Per Diem:</strong> $${totalPerDiem.toFixed(2)}</p>
+            <p><strong>Hotel Cost:</strong> $${totalHotelCost.toFixed(2)}</p>
+            <p><strong>Mileage Cost:</strong> $${mileageCost.toFixed(2)}</p>
+            <p><strong>Total Trip Cost:</strong> $${totalCost.toFixed(2)}</p>
+        `;
+    }
+</script>
+
+</body>
+</html>
